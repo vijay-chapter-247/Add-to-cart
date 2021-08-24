@@ -27,13 +27,13 @@
 
                             <v-card-title class="pb-1 subtitle-2 word-wrap-1">
                                 <!-- The Super Pack -->
-                                {{ product.title }}
+                                {{ product.productTitle }}
                             </v-card-title>
 
                             <v-card-text>
                                 <div class=" text-subtitle-2 word-wrap-1">
                                     <!-- all three serums -->
-                                    {{ product.subtitle }}
+                                    {{ product.productSubtitle }}
                                 </div>
                             </v-card-text>
 
@@ -133,7 +133,9 @@ export default {
     },
     methods: {
         increment(Id) {
-            this.$store.dispatch("increment", Id)
+            let cartItemsArray = [];
+            let cartItems = cartItemsArray.push(this.products[Id]);
+            this.$store.dispatch("increment", cartItems)
         },
         dialogShow() {
             this.$store.dispatch("dialogShow")

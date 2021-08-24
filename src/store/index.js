@@ -19,6 +19,7 @@ export default new Vuex.Store({
       {
         id: 1,
         // productImg: 'SuperPack_ShopGrid_1_main__1_.webp',
+        quantity: 0,
         productImg: firstImage,
         productTitle: 'The Super Pack',
         productSubtitle: 'all three serums',
@@ -28,6 +29,7 @@ export default new Vuex.Store({
       {
         id: 2,
         // productImg: 'WeddingMakeup_01.webp',
+        quantity: 0,
         productImg: secondImage,
         productTitle: 'Makeup Edit',
         productSubtitle: 'limited edition',
@@ -37,6 +39,7 @@ export default new Vuex.Store({
       {
         id: 3,
         // productImg: 'BoyBrow_0_1.webp',
+        quantity: 0,
         productImg: thirdImage,
         productTitle: 'Boy Brow',
         productSubtitle: 'grooming pomade',
@@ -46,6 +49,7 @@ export default new Vuex.Store({
       {
         id: 4,
         // productImg: 'Cleanser_Concentrare_-_1.webp',
+        quantity: 0,
         productImg: fourthImage,
         productTitle: 'Cleanser Concentrate',
         productSubtitle: 'clarifying face wash',
@@ -55,6 +59,7 @@ export default new Vuex.Store({
       {
         id: 5,
         // productImg: 'CloudPaint.webp',
+        quantity: 0,
         productImg: fifthImage,
         productTitle: 'Cloud Paint',
         productSubtitle: 'seamless cheek color',
@@ -64,6 +69,7 @@ export default new Vuex.Store({
       {
         id: 6,
         // productImg: 'Glossier_MAKEUP-SET-PDP.webp',
+        quantity: 0,
         productImg: sixthImage,
         productTitle: 'The Makeup Set',
         productSubtitle: 'daily makeup staples',
@@ -73,6 +79,7 @@ export default new Vuex.Store({
       {
         id: 7,
         // productImg: 'InvisibleShield.webp',
+        quantity: 0,
         productImg: sevenImage,
         productTitle: 'Invisible Shield',
         productSubtitle: 'daily sunscreen +',
@@ -82,6 +89,7 @@ export default new Vuex.Store({
       {
         id: 8,
         // productImg: 'Solution.webp',
+        quantity: 0,
         productImg: eightImage,
         productTitle: 'Solution',
         productSubtitle: 'exfoliating skin perfector',
@@ -91,6 +99,7 @@ export default new Vuex.Store({
       {
         id: 9,
         // productImg: 'SP_Global_-_1.webp',
+        quantity: 0,
         productImg: nineImage,
         productTitle: 'Solar Paint',
         productSubtitle: 'luminous bronzer crème',

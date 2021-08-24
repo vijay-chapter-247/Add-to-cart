@@ -7,7 +7,7 @@
             </v-card-title> -->
 
             <v-toolbar dark color="primary">
-                <v-toolbar-title>Cart Items  </v-toolbar-title>
+                <v-toolbar-title>Cart Items </v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon dark @click="$store.state.dialog = false">
                     <v-icon>mdi-close</v-icon>
