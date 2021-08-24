@@ -1,59 +1,159 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+<div>
+    <v-container fluid>
+        <v-row>
+            <v-spacer></v-spacer>
+
+            <v-btn outlined class="mt-10 mx-6" @click="dialogShow">
+                <v-badge color="primary lighten-1" :content="count" v-if="count > 0">
+                    <v-icon color="black">
+                        mdi-cart-arrow-down
+                    </v-icon>
+                </v-badge>
+
+                <v-icon color="black" v-else>
+                    mdi-cart-arrow-down
+                </v-icon>
+            </v-btn>
+
+            <v-col>
+                <VueSlickCarousel v-bind="settings">
+                    <div v-for="product in products" :key="product.id">
+                        <v-card flat color="#fafafa" class="mx-3 mb-5" max-width="374">
+                            <template slot="progress">
+                                <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
+                            </template>
+                            <v-img :src="product.productImg"></v-img>
+
+                            <v-card-title class="pb-1 subtitle-2 word-wrap-1">
+                                <!-- The Super Pack -->
+                                {{ product.title }}
+                            </v-card-title>
+
+                            <v-card-text>
+                                <div class=" text-subtitle-2 word-wrap-1">
+                                    <!-- all three serums -->
+                                    {{ product.subtitle }}
+                                </div>
+                            </v-card-text>
+
+                            <v-card-actions>
+                                <v-btn outlined block @click="increment(product.id)">
+                                    <v-spacer></v-spacer>
+                                    Add to cart
+                                    <v-spacer></v-spacer>
+                                    <span class="ml-1">
+                                        <!-- $65 -->
+                                        ${{ product.discountRate }}
+                                    </span>
+                                    <span class="ml-1 text-decoration-line-through" v-if=" product.rate != product.discountRate ">
+                                        <!-- $70 -->
+                                        ${{ product.rate }}
+                                    </span>
+                                    <v-spacer></v-spacer>
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </div>
+                </VueSlickCarousel>
+            </v-col>
+        </v-row>
+
+        <Model />
+    </v-container>
+</div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import Model from './Model.vue'
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+    components: {
+        VueSlickCarousel,
+        Model
+    },
+    data() {
+        return {
+            selection: 1,
+            settings: {
+                "dots": false,
+                "infinite": true,
+                "speed": 500,
+                "slidesToShow": 5,
+                "slidesToScroll": 1,
+                "initialSlide": 0,
+                "responsive": [
+
+                    {
+                        "breakpoint": 1080,
+                        "settings": {
+                            "slidesToShow": 4,
+                            "slidesToScroll": 1,
+                            "infinite": true,
+                            "dots": false
+                        }
+                    },
+                    {
+                        "breakpoint": 925,
+                        "settings": {
+                            "slidesToShow": 3,
+                            "slidesToScroll": 1,
+                            "infinite": true,
+                            "dots": false
+                        }
+                    },
+                    {
+                        "breakpoint": 690,
+                        "settings": {
+                            "slidesToShow": 2,
+                            "slidesToScroll": 2,
+                            "initialSlide": 2
+                        }
+                    },
+                    {
+                        "breakpoint": 480,
+                        "settings": {
+                            "slidesToShow": 1,
+                            "slidesToScroll": 1
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    computed: {
+        ...mapGetters(["products"]),
+        count() {
+            return this.$store.state.cartItemCount;
+        }
+    },
+    methods: {
+        increment(Id) {
+            this.$store.dispatch("increment", Id)
+        },
+        dialogShow() {
+            this.$store.dispatch("dialogShow")
+        }
+    }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style>
+.word-wrap-1 {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    -webkit-line-clamp: 1 !important;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+
+.word-wrap-2 {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    -webkit-line-clamp: 2 !important;
 }
 </style>
