@@ -17,62 +17,71 @@
             <v-card-text class="my-5">
                 <v-row class="black--text">
 
-                    <v-col cols="2">
-                        <div class="body-1 font-weight-medium">Product</div>
+                    <v-col cols="3" md="2">
+                        <div class="body-2 font-weight-medium">Product</div>
                     </v-col>
 
-                    <v-col cols="4">
-                        <div class="body-1 font-weight-medium">
+                    <v-col cols="3" md="4" class="d-none d-md-block">
+                        <div class="body-2 font-weight-medium">
                             Title
                         </div>
                     </v-col>
 
-                    <v-col cols="2">
-                        <div class="body-1 font-weight-medium">
+                    <v-col cols="2" md="1">
+                        <div class="body-2 font-weight-medium">
                             Price
                         </div>
                     </v-col>
-                    <v-col cols="2">
-                        <div class="body-1 font-weight-medium">
+                    <v-col cols="5" md="4">
+                        <div class="text-center body-2 font-weight-medium">
                             Quantity
                         </div>
                     </v-col>
-                    <v-col cols="2">
-                        <div class="body-1 font-weight-medium">
+                    <v-col cols="2" md="1">
+                        <div class="body-2 font-weight-medium">
                             Total
                         </div>
                     </v-col>
                 </v-row>
 
                 <v-divider class="mt-3"></v-divider>
-
                 <v-row class="black--text mt-3" v-for="cartItem in cartItems" :key="cartItem.id">
-                    <v-col cols="2">
+                    <v-col cols="3" md="2">
                         <v-avatar tile>
                             <v-img :src="cartItem.productImg"></v-img>
                         </v-avatar>
                     </v-col>
 
-                    <v-col cols="4">
-                        <div class="word-wrap-1 body-1 font-weight-medium">
+                    <v-col cols="3" md="4" class="d-none d-md-block">
+                        <div class="word-wrap-1 body-2 font-weight-medium">
                             {{ cartItem.productTitle }}
                         </div>
                     </v-col>
 
-                    <v-col cols="2">
-                        <div class="body-1 font-weight-medium">
-                            ${{ cartItem.rate }}
+                    <v-col cols="2" md="1">
+                        <div class="body-2 font-weight-medium">
+                            ${{ (cartItem.discountRate ||cartItem.rate)  }}
                         </div>
                     </v-col>
 
-                    <v-col cols="2">
-                        <div class=" body-1 font-weight-medium">
-                            5
+                    <v-col cols="5" md="4">
+                        <div class="text-center body-2 font-weight-medium">
+                            <v-btn text outlined fab x-small color="primary" @click="addToCart(cartItem.id)">
+                                <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+
+                            <span class="mx-1">
+                                {{ cartItem.quantity }}
+                            </span>
+
+                            <v-btn text outlined fab x-small color="primary" @click="decreaseQuantity(cartItem.id)">
+                                <v-icon>mdi-minus</v-icon>
+                            </v-btn>
                         </div>
                     </v-col>
-                    <v-col cols="2">
-                        <div class="body-1 font-weight-medium">
-                            ${{ cartItem.rate }}
+                    <v-col cols="2" md="1">
+                        <div class="body-2 font-weight-medium">
+                            ${{ cartItem.quantity * (cartItem.discountRate ||cartItem.rate) }}
                         </div>
                     </v-col>
                 </v-row>
@@ -98,13 +107,14 @@ export default {
             return this.$store.state.cartItems;
         },
     },
-    // created() {
-    //     if (this.$store.state.cartItems != undefined) {
-    //         localStorage.setItem("cartItems", JSON.stringify(this.$store.state.cartItems))
-    //     }
-    // },
-    // mounted() {
-    //     this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
-    // }
+    methods: {
+      addToCart(Id){
+        this.$store.dispatch("addToCart", Id)
+      },
+      decreaseQuantity(Id){
+        this.$store.dispatch("decreaseQuantity", Id)
+      },
+    }
 }
 </script>
+

@@ -98,8 +98,6 @@ export default new Vuex.Store({
       },
       {
         id: 9,
-        // productImg: 'SP_Global_-_1.webp',
-        quantity: 0,
         productImg: nineImage,
         productTitle: 'Solar Paint',
         productSubtitle: 'luminous bronzer crème',
@@ -112,20 +110,64 @@ export default new Vuex.Store({
     cartItems: []
   },
   mutations: {
-    increment(state, payload) {
+    addToCart(state, productId) {
       state.cartItemCount++;
-      state.cartItems.push(state.products[payload]);
+      const product = state.products.find((prod) => prod.id === productId)
+      const cartIndex = state.cartItems.findIndex((prod) => prod.id === productId)
+
+      // if item is not in cart already
+      if (cartIndex === -1) {
+        product.quantity = 1;
+        state.cartItems.push(product)
+      } else {
+        const updatedQuantity = state.cartItems[cartIndex].quantity + 1;
+        state.cartItems[cartIndex].quantity = updatedQuantity
+      }
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
+    },
+    decreaseQuantity(state, productId) {
+      state.cartItemCount--;
+      const cartIndex = state.cartItems.findIndex((prod) => prod.id === productId)
+
+      const updatedQuantity = state.cartItems[cartIndex].quantity - 1;
+      if (updatedQuantity === 0) {
+        state.cartItems.splice(cartIndex, 1)
+      } else {
+        state.cartItems[cartIndex].quantity = updatedQuantity
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
     },
     dialogShow(state) {
       state.dialog = !state.dialog;
+    },
+    setCartItemsFromLocalStorage(state) {
+      let cartItems = []
+      try {
+        cartItems = JSON.parse(localStorage.getItem("cartItems"))
+      } catch (error) {
+
+      }
+      let cartItemCount = 0;
+      cartItems.forEach((cartitem) => {
+        cartItemCount = cartItemCount + Number(cartitem.quantity)
+      })
+      state.cartItems = cartItems;
+      state.cartItemCount = cartItemCount
     }
   },
   actions: {
-    increment: (context, payload) => {
-      context.commit("increment", payload);
+    addToCart: (context, payload) => {
+      context.commit("addToCart", payload);
+    },
+    decreaseQuantity: (context, payload) => {
+      context.commit("decreaseQuantity", payload);
     },
     dialogShow: (context) => {
       context.commit("dialogShow");
+    },
+    setCartItemsFromLocalStorage: (context) => {
+      context.commit("setCartItemsFromLocalStorage");
     }
   },
   getters: {
