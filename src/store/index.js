@@ -171,3 +171,4 @@ export default new Vuex.Store({
     products: (state) => state.products,
   }
 })
+
