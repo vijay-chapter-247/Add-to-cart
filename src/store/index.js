@@ -18,7 +18,6 @@ export default new Vuex.Store({
     products: [
       {
         id: 1,
-        // productImg: 'SuperPack_ShopGrid_1_main__1_.webp',
         quantity: 0,
         productImg: firstImage,
         productTitle: 'The Super Pack',
@@ -28,7 +27,6 @@ export default new Vuex.Store({
       },
       {
         id: 2,
-        // productImg: 'WeddingMakeup_01.webp',
         quantity: 0,
         productImg: secondImage,
         productTitle: 'Makeup Edit',
@@ -38,7 +36,6 @@ export default new Vuex.Store({
       },
       {
         id: 3,
-        // productImg: 'BoyBrow_0_1.webp',
         quantity: 0,
         productImg: thirdImage,
         productTitle: 'Boy Brow',
@@ -48,7 +45,6 @@ export default new Vuex.Store({
       },
       {
         id: 4,
-        // productImg: 'Cleanser_Concentrare_-_1.webp',
         quantity: 0,
         productImg: fourthImage,
         productTitle: 'Cleanser Concentrate',
@@ -58,7 +54,6 @@ export default new Vuex.Store({
       },
       {
         id: 5,
-        // productImg: 'CloudPaint.webp',
         quantity: 0,
         productImg: fifthImage,
         productTitle: 'Cloud Paint',
@@ -68,7 +63,6 @@ export default new Vuex.Store({
       },
       {
         id: 6,
-        // productImg: 'Glossier_MAKEUP-SET-PDP.webp',
         quantity: 0,
         productImg: sixthImage,
         productTitle: 'The Makeup Set',
@@ -78,7 +72,6 @@ export default new Vuex.Store({
       },
       {
         id: 7,
-        // productImg: 'InvisibleShield.webp',
         quantity: 0,
         productImg: sevenImage,
         productTitle: 'Invisible Shield',
@@ -88,7 +81,6 @@ export default new Vuex.Store({
       },
       {
         id: 8,
-        // productImg: 'Solution.webp',
         quantity: 0,
         productImg: eightImage,
         productTitle: 'Solution',
@@ -110,9 +102,12 @@ export default new Vuex.Store({
     cartItems: []
   },
   mutations: {
+
     addToCart(state, productId) {
       state.cartItemCount++;
+
       const product = state.products.find((prod) => prod.id === productId)
+
       const cartIndex = state.cartItems.findIndex((prod) => prod.id === productId)
 
       // if item is not in cart already
@@ -125,6 +120,8 @@ export default new Vuex.Store({
       }
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
     },
+
+
     decreaseQuantity(state, productId) {
       state.cartItemCount--;
       const cartIndex = state.cartItems.findIndex((prod) => prod.id === productId)
